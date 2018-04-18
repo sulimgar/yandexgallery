@@ -21,13 +21,18 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
     private Context context;
     private LayoutInflater inflater;
     private List<Photo> data;
-    private TextView total;
+    private TextView total, loaded;
 
-    PhotosAdapter(Context context, TextView total) {
+    PhotosAdapter(Context context, TextView total, TextView loaded) {
         this.context = context;
         this.total = total;
+        this.loaded = loaded;
         inflater = LayoutInflater.from(context);
+
+        //Set initial values
         data = new ArrayList<>();
+        total.setText(context.getString(R.string.total_photos) + "0");
+        loaded.setText(context.getString(R.string.loaded_photos) + "0");
     }
 
     @NonNull
@@ -56,7 +61,7 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ShowPhoto.class);
+                Intent intent = new Intent(context, ShowPhotoActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra(URL_KEY, item);
                 context.startActivity(intent);
@@ -69,12 +74,22 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
         return data.size();
     }
 
-    public void setTotal(int total){
+    public void setTotal(int total) {
         this.total.setText("Total: " + total);
     }
 
     public void setData(List<Photo> data) {
         this.data = data.subList(1, data.size());
+        setLoaded(this.data.size());
+    }
+
+    public void appendData(List<Photo> data) {
+        this.data.addAll(data.subList(1, data.size()));
+        setLoaded(this.data.size());
+    }
+
+    void setLoaded(int nLoaded) {
+        loaded.setText(context.getString(R.string.loaded_photos) + nLoaded);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

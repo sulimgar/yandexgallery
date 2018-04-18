@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Yandex Gallery</string>
     <string name="total_photos">Total:</string>
+    <string name="loaded_photos">Loaded</string>
 </resources>

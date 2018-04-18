@@ -7,21 +7,27 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-        <android.support.v7.widget.Toolbar
+        <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-            android:id="@+id/main_toolbar"/>
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/total_photos"
-                android:text="@string/total_photos"
-                android:textSize="20sp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="40dp"/>
-
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
+            <TextView
+                    android:id="@+id/total_photos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/total_photos"
+                    android:textSize="15sp"
+                    android:layout_marginLeft="40dp"/>
+            <TextView
+                    android:id="@+id/loaded_photos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/total_photos"
+                    android:text="@string/loaded_photos"
+                    android:textSize="15sp"
+                    android:layout_marginLeft="40dp"/>
+        </RelativeLayout>
         <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

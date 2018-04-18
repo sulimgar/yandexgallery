@@ -15,11 +15,15 @@ import java.util.List;
 
 public class PhotoLoader extends AsyncTaskLoader<List<String>> {
 
-    private final String address = "http://neuro.pythonanywhere.com/";
+    private final String address = "http://neuro.pythonanywhere.com";
     public static final String URL_EXCEPTION_TAG = "URL_EXCEPTION";
+    public static final String LAST_LOADED_PHOTO = "last_photo_loaded";
 
-    public PhotoLoader(Context context) {
+    private int lastPhoto;
+
+    public PhotoLoader(Context context, int lastPhoto) {
         super(context);
+        this.lastPhoto = lastPhoto;
     }
 
     @Override
@@ -31,7 +35,7 @@ public class PhotoLoader extends AsyncTaskLoader<List<String>> {
     public List<String> loadInBackground() {
         List<String> data = new ArrayList<>();
         try {
-            URL url = new URL(address);
+            URL url = new URL(address + "?" + LAST_LOADED_PHOTO + "=" + lastPhoto);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             connection.setRequestMethod("GET");

@@ -1,12 +1,12 @@
 package com.example.neuro.yandexgallery;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.widget.Toast;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,24 +14,31 @@ import java.util.List;
 
 public class PhotosCallback implements LoaderManager.LoaderCallbacks<List<String>> {
     public static final int LOAD_PHOTOS = -15;
+    public static final int RESPONSE_OK = 0;
+    public static final int RESPONSE_BAD = 1;
+
+    public static final String SHARED_PREFERENCES = "ResponsePreferences";
+    public static final String SERVER_RESPONSE = "ServerResponse";
 
     private Context context;
     private PhotosAdapter adapter;
+    private SharedPreferences preferences;
 
     public PhotosCallback(Context context, PhotosAdapter adapter) {
         this.context = context;
         this.adapter = adapter;
+        preferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
     }
 
     @NonNull
     @Override
     public android.support.v4.content.Loader<List<String>> onCreateLoader(int id, @Nullable Bundle args) {
-        return new PhotoLoader(context);
+        return new PhotoLoader(context, args.getInt(PhotoLoader.LAST_LOADED_PHOTO, 0));
     }
 
     @Override
     public void onLoadFinished(@NonNull android.support.v4.content.Loader<List<String>> loader, List<String> data) {
-        if(data.size() > 0) {
+        if (data.size() > 0) {
             adapter.setTotal(Integer.parseInt(data.get(0)));
             List<Photo> photos = new ArrayList<>();
             for (String photoData : data.subList(1, data.size())) {
@@ -39,11 +46,17 @@ public class PhotosCallback implements LoaderManager.LoaderCallbacks<List<String
                 p.setUrls(Arrays.asList(photoData.split(",")));
                 photos.add(p);
             }
-            adapter.setData(photos);
+            adapter.appendData(photos);
             adapter.notifyDataSetChanged();
-        }else{
+            writeResponse(RESPONSE_OK);
+        } else {
             Toast.makeText(context, "No photos loaded", Toast.LENGTH_SHORT).show();
+            writeResponse(RESPONSE_BAD);
         }
+    }
+
+    private void writeResponse(int response) {
+        preferences.edit().putInt(SERVER_RESPONSE, response).apply();
     }
 
     @Override
