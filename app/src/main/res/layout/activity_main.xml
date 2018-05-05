@@ -16,7 +16,7 @@
                     android:id="@+id/total_photos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/total_photos"
+                    android:text="@string/offline"
                     android:textSize="15sp"
                     android:layout_marginLeft="40dp"/>
             <TextView

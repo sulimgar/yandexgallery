@@ -32,7 +32,7 @@ public class PhotoLoader extends AsyncTaskLoader<List<String>> {
     }
 
     @Override
-    public List<String> loadInBackground() {
+    public List<String> loadInBackground() {//Load photos from server
         List<String> data = new ArrayList<>();
         try {
             URL url = new URL(address + "?" + LAST_LOADED_PHOTO + "=" + lastPhoto);

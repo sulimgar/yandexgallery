@@ -38,10 +38,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         totalPhotos = findViewById(R.id.total_photos);
         loadedPhotos = findViewById(R.id.loaded_photos);
 
-        initLayout();
-
         refreshLayout = findViewById(R.id.swipe_refresh);
         refreshLayout.setOnRefreshListener(this);
+
+        initLayout();
 
         RecyclerView view = findViewById(R.id.recycle_photos);
         view.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
@@ -63,8 +63,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     private void initLayout() {
         adapter = new PhotosAdapter(getApplicationContext(), totalPhotos, loadedPhotos);
-        callback = new PhotosCallback(getApplicationContext(), adapter);
-        loadTotalPhotos();
+        callback = new PhotosCallback(getApplicationContext(), adapter, refreshLayout);
+        if (totalPhotos.getText().toString().equals(getApplicationContext().getString(R.string.offline))) {
+            loadTotalPhotos();//Trying to get total amount of photos in the album
+        }
         if (!loadCache() && adapter.getData().size() == 0) {
             Bundle bundle = new Bundle();
             bundle.putInt(PhotoLoader.LAST_LOADED_PHOTO, adapter.getItemCount());
@@ -78,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         getSupportLoaderManager().initLoader(0, null, callbacks);
     }
 
-    private boolean loadCache() {
+    private boolean loadCache() {//See if any photos were cached
         SharedPreferences preferences = getApplicationContext().getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         String cache = preferences.getString(PHOTO_CACHE, "null");
         if (!cache.equals("[]")) {
@@ -92,20 +94,22 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     @Override
-    public void onRefresh() {
+    public void onRefresh() {//on refresh load more photos
         Bundle bundle = new Bundle();
         bundle.putInt(PhotoLoader.LAST_LOADED_PHOTO, adapter.getItemCount());
         getSupportLoaderManager().restartLoader(PhotosCallback.LOAD_PHOTOS, bundle, callback);
-        refreshLayout.setRefreshing(false);
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        //TODO save only first 40 pictures
+    protected void onSaveInstanceState(Bundle outState) {//Try to save loaded photos
         super.onSaveInstanceState(outState);
         SharedPreferences preferences = getApplicationContext().getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         Gson gson = new Gson();
-        String cache = gson.toJson(adapter.getData());
+        List<Photo> data = adapter.getData();
+        if (data.size() > 40) {
+            data = data.subList(0, 40);
+        }
+        String cache = gson.toJson(data);
         preferences.edit()
                 .putString(PHOTO_CACHE, cache)
                 .apply();

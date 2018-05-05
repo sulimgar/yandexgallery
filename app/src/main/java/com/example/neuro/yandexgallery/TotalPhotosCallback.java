@@ -1,6 +1,7 @@
 package com.example.neuro.yandexgallery;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,9 +28,9 @@ public class TotalPhotosCallback implements LoaderManager.LoaderCallbacks<String
     @Override
     public void onLoadFinished(@NonNull Loader<String> loader, String data) {
         if(!data.isEmpty()) {
-            textView.setText("Total: " + data);
+            textView.setText(context.getString(R.string.total_photos, Integer.parseInt(data)));
         } else {
-            textView.setText("Total: offline");
+            textView.setText(context.getString(R.string.offline));
             Toast.makeText(context, "Error loading", Toast.LENGTH_SHORT).show();
         }
     }

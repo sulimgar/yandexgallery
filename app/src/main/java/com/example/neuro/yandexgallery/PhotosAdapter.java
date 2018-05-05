@@ -31,8 +31,8 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
 
         //Set initial values
         data = new ArrayList<>();
-        total.setText(context.getString(R.string.total_photos) + "0");
-        loaded.setText(context.getString(R.string.loaded_photos) + "0");
+        total.setText(context.getString(R.string.offline));
+        loaded.setText(context.getString(R.string.loaded_photos, 0));
     }
 
     @NonNull
@@ -75,11 +75,11 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
     }
 
     public void setTotal(int total) {
-        this.total.setText("Total: " + total);
+        this.total.setText(context.getString(R.string.total_photos, total));
     }
 
     public void setData(List<Photo> data) {
-        this.data = data.subList(1, data.size());
+        this.data = data;
         setLoaded(this.data.size());
     }
 
@@ -89,7 +89,7 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
     }
 
     void setLoaded(int nLoaded) {
-        loaded.setText(context.getString(R.string.loaded_photos) + nLoaded);
+        loaded.setText(context.getString(R.string.loaded_photos, nLoaded));
     }
 
     public List<Photo> getData() {

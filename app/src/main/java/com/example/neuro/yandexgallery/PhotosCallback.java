@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -23,11 +24,13 @@ public class PhotosCallback implements LoaderManager.LoaderCallbacks<List<String
     private Context context;
     private PhotosAdapter adapter;
     private SharedPreferences preferences;
+    private SwipeRefreshLayout refreshLayout;
 
-    public PhotosCallback(Context context, PhotosAdapter adapter) {
+    public PhotosCallback(Context context, PhotosAdapter adapter, SwipeRefreshLayout refreshLayout) {
         this.context = context;
         this.adapter = adapter;
         preferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        this.refreshLayout = refreshLayout;
     }
 
     @NonNull
@@ -38,9 +41,10 @@ public class PhotosCallback implements LoaderManager.LoaderCallbacks<List<String
 
     @Override
     public void onLoadFinished(@NonNull android.support.v4.content.Loader<List<String>> loader, List<String> data) {
-        if (data.size() > 0) {
+        refreshLayout.setRefreshing(false);
+        if (data.size() > 0) {//Check if loaded any
             List<Photo> photos = new ArrayList<>();
-            for (String photoData : data.subList(1, data.size())) {//skip first empty string
+            for (String photoData : data.subList(1, data.size())) {//skip first empty string and create Photo obj for each
                 Photo p = new Photo();
                 p.setUrls(Arrays.asList(photoData.split(",")));
                 photos.add(p);
