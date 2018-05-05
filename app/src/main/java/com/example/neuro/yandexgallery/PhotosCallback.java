@@ -39,9 +39,8 @@ public class PhotosCallback implements LoaderManager.LoaderCallbacks<List<String
     @Override
     public void onLoadFinished(@NonNull android.support.v4.content.Loader<List<String>> loader, List<String> data) {
         if (data.size() > 0) {
-            adapter.setTotal(Integer.parseInt(data.get(0)));
             List<Photo> photos = new ArrayList<>();
-            for (String photoData : data.subList(1, data.size())) {
+            for (String photoData : data.subList(1, data.size())) {//skip first empty string
                 Photo p = new Photo();
                 p.setUrls(Arrays.asList(photoData.split(",")));
                 photos.add(p);

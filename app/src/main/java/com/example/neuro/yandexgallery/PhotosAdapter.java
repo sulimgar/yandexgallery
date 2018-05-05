@@ -92,6 +92,10 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
         loaded.setText(context.getString(R.string.loaded_photos) + nLoaded);
     }
 
+    public List<Photo> getData() {
+        return data;
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView image;
 

@@ -15,7 +15,7 @@ import java.util.List;
 
 public class PhotoLoader extends AsyncTaskLoader<List<String>> {
 
-    private final String address = "http://neuro.pythonanywhere.com";
+    public static final String address = "http://neuro.pythonanywhere.com";
     public static final String URL_EXCEPTION_TAG = "URL_EXCEPTION";
     public static final String LAST_LOADED_PHOTO = "last_photo_loaded";
 

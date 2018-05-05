@@ -43,11 +43,15 @@ public class ShowPhotoActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //TODO manage saving files
+                File file = new File(getFilesDir(), filename);
+
                 FileOutputStream stream = null;
                 try {
-                    stream = openFileOutput(filename, Context.MODE_PRIVATE);
+                    stream = new FileOutputStream(file);
                     Bitmap bitmap = ((BitmapDrawable) mainPhoto.getDrawable()).getBitmap();
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
                 } catch (IOException e) {
                     Log.e(log, e.getLocalizedMessage());
                     Toast.makeText(getApplicationContext(), "Error saving image", Toast.LENGTH_SHORT).show();
