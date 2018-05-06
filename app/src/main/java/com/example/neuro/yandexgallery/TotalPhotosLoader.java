@@ -10,8 +10,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class TotalPhotosLoader extends AsyncTaskLoader<String> {
-    public TotalPhotosLoader(Context context) {
+    private int groupID;
+
+    public TotalPhotosLoader(Context context, int groupID){
         super(context);
+        this.groupID = groupID;
     }
 
     @Override
@@ -23,7 +26,7 @@ public class TotalPhotosLoader extends AsyncTaskLoader<String> {
     public String loadInBackground() {
         String res = "";
         try {
-            URL url = new URL(PhotoLoader.address + "?get_size=true");
+            URL url = new URL(PhotoLoader.address + "?get_size=true&" + PhotoLoader.GROUP_ID + "=" + groupID);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             connection.setRequestMethod("GET");

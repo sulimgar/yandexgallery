@@ -36,7 +36,12 @@ public class PhotosCallback implements LoaderManager.LoaderCallbacks<List<String
     @NonNull
     @Override
     public android.support.v4.content.Loader<List<String>> onCreateLoader(int id, @Nullable Bundle args) {
-        return new PhotoLoader(context, args.getInt(PhotoLoader.LAST_LOADED_PHOTO, 0));
+        if (id == LOAD_PHOTOS) {
+            int lastLoaded = args.getInt(PhotoLoader.LAST_LOADED_PHOTO, 0);
+            int groupID = args.getInt(PhotoLoader.GROUP_ID, 0);
+            return new PhotoLoader(context, lastLoaded, groupID);
+        }
+        return null;
     }
 
     @Override

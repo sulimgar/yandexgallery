@@ -18,12 +18,15 @@ public class PhotoLoader extends AsyncTaskLoader<List<String>> {
     public static final String address = "http://neuro.pythonanywhere.com";
     public static final String URL_EXCEPTION_TAG = "URL_EXCEPTION";
     public static final String LAST_LOADED_PHOTO = "last_photo_loaded";
+    public static final String GROUP_ID = "group_id";
 
     private int lastPhoto;
+    private int groupID;
 
-    public PhotoLoader(Context context, int lastPhoto) {
+    public PhotoLoader(Context context, int lastPhoto, int groupID) {
         super(context);
         this.lastPhoto = lastPhoto;
+        this.groupID = groupID;
     }
 
     @Override
@@ -35,7 +38,7 @@ public class PhotoLoader extends AsyncTaskLoader<List<String>> {
     public List<String> loadInBackground() {//Load photos from server
         List<String> data = new ArrayList<>();
         try {
-            URL url = new URL(address + "?" + LAST_LOADED_PHOTO + "=" + lastPhoto);
+            URL url = new URL(address + "?" + LAST_LOADED_PHOTO + "=" + lastPhoto + "&" + GROUP_ID + "=" + groupID);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             connection.setRequestMethod("GET");

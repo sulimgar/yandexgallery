@@ -84,7 +84,7 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
     }
 
     public void appendData(List<Photo> data) {
-        this.data.addAll(data.subList(1, data.size()));
+        this.data.addAll(data);
         setLoaded(this.data.size());
     }
 
@@ -94,6 +94,11 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
 
     public List<Photo> getData() {
         return data;
+    }
+
+    public void clearData() {
+        data.clear();
+        setLoaded(0);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

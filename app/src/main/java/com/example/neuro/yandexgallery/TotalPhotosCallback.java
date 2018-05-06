@@ -22,7 +22,7 @@ public class TotalPhotosCallback implements LoaderManager.LoaderCallbacks<String
     @NonNull
     @Override
     public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
-        return new TotalPhotosLoader(context);
+        return new TotalPhotosLoader(context, args.getInt(PhotoLoader.GROUP_ID));
     }
 
     @Override

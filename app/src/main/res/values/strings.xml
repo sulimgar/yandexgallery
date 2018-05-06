@@ -3,4 +3,8 @@
     <string name="total_photos">Total: %1$d</string>
     <string name="loaded_photos">Loaded: %1$d</string>
     <string name="offline">Offline</string>
+    <string name="clear_cache">Clear cache</string>
+    <string name="clear_photos">Clear photos</string>
+    <string name="new_group">New group</string>
+    <string name="enter_id">Set new group id</string>
 </resources>

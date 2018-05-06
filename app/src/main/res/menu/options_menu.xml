@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/new_group"
+        android:title="@string/new_group"/>
+    <item
+        android:id="@+id/clear_cache"
+        android:title="@string/clear_cache"/>
+    <item
+        android:id="@+id/clear_photos"
+        android:title="@string/clear_photos"/>
+</menu>

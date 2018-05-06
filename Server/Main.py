@@ -2,6 +2,7 @@ from flask import Flask
 from flask import request
 import vk
 import re
+
 app = Flask(__name__)
 
 group_id = '-23300841'
@@ -13,6 +14,7 @@ photos_per_chank = 20
 @app.route('/', methods=['GET'])
 def get_photos():
     get_size = bool(request.args.get('get_size'))
+    group_id = '-' + str(request.args.get('group_id'))
 
     sess = vk.Session()
     vk_api = vk.API(sess)
@@ -21,6 +23,7 @@ def get_photos():
     if get_size:
         size = response['items'][album_id]['size']
         return str(size)
+
     last_photo_loaded = int(request.args.get('last_photo_loaded'))
     group_album = response['items'][album_id]['id']
     response = vk_api.photos.get(
