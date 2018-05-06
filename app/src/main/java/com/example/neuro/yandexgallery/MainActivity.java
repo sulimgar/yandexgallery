@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             Bundle bundle = new Bundle();
             bundle.putInt(PhotoLoader.GROUP_ID, groupID);
             LoaderManager.LoaderCallbacks callbacks = new TotalPhotosCallback(getApplicationContext(), totalPhotos);
-            getSupportLoaderManager().initLoader(0, bundle, callbacks);
+            getSupportLoaderManager().restartLoader(0, bundle, callbacks);
         }
     }
 
