@@ -1,6 +1,6 @@
 ## Synopsis
 
-Gallery made for Yandex Coding School. This app loads photos from VK groups using VK API.
+Gallery made for Yandex Coding School. This app loads photos from VK groups using VK API. Thanks to Roskomnadzor server can be unreachable in order to use the app consider using VPN.
 
 # Installation
 
